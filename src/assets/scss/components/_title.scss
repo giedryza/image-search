@@ -1,0 +1,19 @@
+.title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: $color-grey-dark;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    margin-bottom: $gap-small;
+    border-bottom: 1px solid $color-grey-light;
+    display: flex;
+    align-items: center;
+
+    svg {
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        margin-right: 1rem;
+        stroke: $color-grey-dark;
+    }
+}

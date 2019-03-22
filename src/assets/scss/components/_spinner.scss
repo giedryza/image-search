@@ -1,0 +1,16 @@
+.spinner {
+    margin: 1rem auto;
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: $color-primary $color-primary $color-primary transparent;
+    animation: spinner 0.75s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
