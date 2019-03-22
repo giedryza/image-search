@@ -23,6 +23,7 @@ const Search = () => {
     const API = {
         rootURL: 'https://api.unsplash.com/search/photos',
         perPage: 12,
+        initialSearch: 'lithuania',
         fetchInitObject: {
             headers: {
                 'Accept-Version': 'v1',
@@ -32,7 +33,7 @@ const Search = () => {
     };
 
     const generateQuery = input => {
-        const query = input.trim().replace(/\s\s+/g, ',');
+        const query = input.trim().replace(/\s{1,}/g, ',');
         return query;
     };
 
