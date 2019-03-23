@@ -19,7 +19,6 @@ const Store = ({ children }) => {
 
     const deleteQuery = queryToDelete => {
         const updatedQueries = queries.filter(query => query !== queryToDelete);
-
         setQueries(updatedQueries);
     };
 

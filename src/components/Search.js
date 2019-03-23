@@ -23,7 +23,6 @@ const Search = () => {
     const API = {
         rootURL: 'https://api.unsplash.com/search/photos',
         perPage: 12,
-        initialSearch: 'lithuania',
         fetchInitObject: {
             headers: {
                 'Accept-Version': 'v1',

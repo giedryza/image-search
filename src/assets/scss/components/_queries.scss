@@ -25,20 +25,6 @@
             color: $color-white;
         }
 
-        &:hover.queries--active {
-            background: $color-primary;
-            color: $color-white;
-
-            span svg {
-                stroke: $color-white;
-
-                &:hover {
-                    background: $color-white;
-                    stroke: $color-primary;
-                }
-            }
-        }
-
         span {
             display: none;
         }
@@ -68,6 +54,20 @@
                     &:hover {
                         background: $color-primary;
                         stroke: $color-white;
+                    }
+                }
+            }
+
+            &.queries--active {
+                background: lighten($color-primary, 5%);
+                color: $color-white;
+
+                span svg {
+                    stroke: $color-white;
+
+                    &:hover {
+                        background: $color-white;
+                        stroke: $color-primary;
                     }
                 }
             }
