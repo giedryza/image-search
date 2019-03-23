@@ -181,6 +181,7 @@ const Search = () => {
                         name="searchInput"
                         className="search__container"
                         placeholder="Start typing..."
+                        autoFocus={true}
                         value={searchInput}
                         onInputChange={handleSearchInputChange}
                         onResetClick={() => handleResetSearch(true)}

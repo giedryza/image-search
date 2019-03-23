@@ -1,6 +1,6 @@
 ### QUICK START:
 
-add _.env_ file to root directory. It should contain the following content:
+Add _.env_ file to root directory. It should contain the following content:
 
     REACT_APP_UNSPLASH_ACCESS_KEY=your_unsplash_access_key
 
@@ -8,6 +8,10 @@ Then run:
 
     npm install
     npm start
+
+### APP LIVE
+
+[https://giedryza.github.io/image-search](https://giedryza.github.io/image-search)
 
 ### FOLDER STRUCTURE:
 
@@ -22,7 +26,7 @@ I have 4 folders in src directory:
 
 The whole logic is kept in one component _(Search.js)_ and outsourced into its child components. Also all the simple rendering logic is in the function body as well because i wanted to keep my JSX clean.
 
-### CLASS vs. FUNCTIONS:
+### CLASS vs. FUNCTION:
 
 Initially I made the application using stateful class based component, but later on decided to refactor it into functional component using hooks. This is the path React is moving forwards so i guess its a good idea to come along.
 
@@ -38,7 +42,7 @@ Errors are displayed in the modal. The modal can be closed by clicking backdrop 
 
 ### SOME INTERESTING SPOTS:
 
--   Exactly ZERO 3rd party dependecies were used building this app.
+-   Exactly zero 3rd party dependecies were used building this app.
 -   Used little css padding trick to maintain the perfect aspect ratio (16:9) for image containers.
 -   Image grid uses minmax, so its responsive without any media queries.
 -   Decided to implement 'load more' since it makes perfect sense for this application.

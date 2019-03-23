@@ -2,7 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../utils/Icon';
 
-const SearchInput = ({ id, name, className, placeholder, value, onInputChange, onResetClick }) => {
+const SearchInput = ({
+    id,
+    autoFocus,
+    name,
+    className,
+    placeholder,
+    value,
+    onInputChange,
+    onResetClick
+}) => {
     const renderResetButton = () =>
         value && (
             <button type="button" onClick={onResetClick}>
@@ -17,6 +26,7 @@ const SearchInput = ({ id, name, className, placeholder, value, onInputChange, o
                 id={id}
                 name={name}
                 placeholder={placeholder}
+                autoFocus={autoFocus}
                 value={value}
                 onChange={onInputChange}
             />
@@ -30,6 +40,7 @@ SearchInput.propTypes = {
     name: PropTypes.string.isRequired,
     className: PropTypes.string,
     placeholder: PropTypes.string,
+    autoFocus: PropTypes.bool.isRequired,
     value: PropTypes.string.isRequired,
     onInputChange: PropTypes.func.isRequired,
     onResetClick: PropTypes.func.isRequired
