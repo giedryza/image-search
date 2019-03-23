@@ -1,5 +1,11 @@
 ### QUICK START:
 
+add _.env_ file to root directory. It should contain the following content:
+
+    REACT_APP_UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+
+Then run:
+
     npm install
     npm start
 
