@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import SearchContext from '../context/searchContext';
 
@@ -11,18 +11,10 @@ import SearchInput from './SearchInput';
 import ImageItem from './ImageItem';
 
 const Search = () => {
-    const [searchInput, setSearchInput] = useState('');
-    const [images, setImages] = useState([]);
-    const [totalPages, setTotalPages] = useState(1);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-
-    const context = useContext(SearchContext);
-
     const API = {
         rootURL: 'https://api.unsplash.com/search/photos',
         perPage: 12,
+        initSearch: 'lithuania',
         fetchInitObject: {
             headers: {
                 'Accept-Version': 'v1',
@@ -31,17 +23,25 @@ const Search = () => {
         }
     };
 
-    const generateQuery = input => {
-        const query = input.trim().replace(/\s{1,}/g, ',');
-        return query;
-    };
+    const [searchInput, setSearchInput] = useState('');
+    const [searchSubmit, setSearchSubmit] = useState({ query: API.initSearch, page: 1 });
+    const [images, setImages] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const fetchResults = async (query, page = 1) => {
+    const { queries, saveQuery, deleteQuery } = useContext(SearchContext);
+
+    useEffect(() => {
+        fetchResults(searchSubmit.query);
+    }, [searchSubmit]);
+
+    const fetchResults = async query => {
         try {
             setLoading(true);
 
             const res = await fetch(
-                `${API.rootURL}?page=${page}&per_page=${API.perPage}&query=${query}`,
+                `${API.rootURL}?page=${searchSubmit.page}&per_page=${API.perPage}&query=${query}`,
                 API.fetchInitObject
             );
 
@@ -54,56 +54,55 @@ const Search = () => {
                 throw new Error('Nothing found');
             }
 
-            if (page === 1) {
+            if (searchSubmit.page === 1) {
                 setImages(results);
             } else {
                 setImages([...images, ...results]);
             }
 
             setTotalPages(total_pages);
-            setError('');
-            setLoading(false);
+            handleResetSearch({});
         } catch ({ message }) {
-            setError(message);
-            setLoading(false);
+            handleResetSearch({
+                clearResults: true,
+                resetPages: true,
+                error: message
+            });
         }
+    };
+
+    const generateQuery = input => {
+        const query = input.trim().replace(/\s{1,}/g, ',');
+        return query;
+    };
+
+    const handleResetSearch = ({ clearInput, clearResults, resetPages, error }) => {
+        clearInput && setSearchInput('');
+        clearResults && setImages([]);
+        resetPages && setTotalPages(1);
+
+        setError(error ? error : '');
+        setLoading(false);
     };
 
     const handleSearchInputChange = ({ target: { value } }) => {
         setSearchInput(value);
-        handleResetSearch(false);
     };
 
     const handleSearchSubmit = e => {
         e.preventDefault();
 
-        setCurrentPage(1);
-
         const query = generateQuery(searchInput);
         if (!query) {
             setError('Enter search keywords');
         } else {
-            fetchResults(query);
+            setSearchSubmit({ ...searchSubmit, page: 1, query: query });
         }
-    };
-
-    const handleResetSearch = clearInput => {
-        if (clearInput) {
-            setSearchInput('');
-        }
-
-        setImages([]);
-        setTotalPages(1);
-        setCurrentPage(1);
-        setError('');
-        setLoading(false);
     };
 
     const handleLoadMore = () => {
-        const nextPage = currentPage + 1;
-        const query = generateQuery(searchInput);
-        setCurrentPage(currentPage + 1);
-        fetchResults(query, nextPage);
+        const nextPage = searchSubmit.page + 1;
+        setSearchSubmit({ ...searchSubmit, page: nextPage });
     };
 
     const handleSearchSave = () => {
@@ -113,7 +112,7 @@ const Search = () => {
             if (!query) {
                 throw new Error('No keywords to save');
             }
-            context.saveQuery(query);
+            saveQuery(query);
         } catch ({ message }) {
             setError(message);
         }
@@ -121,28 +120,26 @@ const Search = () => {
 
     const handleSearchSaveSubmit = query => {
         setSearchInput(query);
-        setCurrentPage(1);
-
-        fetchResults(query);
+        setSearchSubmit({ ...searchSubmit, query: query, page: 1 });
     };
 
     const handleSearchDelete = (e, query) => {
         e.stopPropagation();
-        context.deleteQuery(query);
+        deleteQuery(query);
     };
 
     const renderImages = () => images.map(image => <ImageItem key={image.id} image={image} />);
 
     const renderSearchButton = () =>
-        loading && currentPage === 1 ? (
+        loading && searchSubmit.page === 1 ? (
             <Spinner />
         ) : (
             <ButtonPrimary type="submit" icon="search" text="Search" />
         );
 
     const renderLoadMoreButton = () => {
-        if (loading && currentPage !== 1) return <Spinner />;
-        if (!(currentPage === totalPages))
+        if (loading && searchSubmit.page !== 1) return <Spinner />;
+        if (!(searchSubmit.page === totalPages))
             return (
                 <ButtonPrimary
                     type="button"
@@ -154,11 +151,11 @@ const Search = () => {
     };
 
     const renderSavedSearches = () =>
-        context.queries.map(query => (
+        queries.map(query => (
             <li key={query}>
                 <button
                     onClick={() => handleSearchSaveSubmit(query)}
-                    className={query === searchInput ? 'queries--active' : ''}
+                    className={query === searchSubmit.query ? 'queries--active' : ''}
                 >
                     {query}
                     <span onClick={e => handleSearchDelete(e, query)}>
@@ -169,7 +166,7 @@ const Search = () => {
         ));
 
     const renderError = () =>
-        error && <Modal label="Error!" text={error} onClose={() => handleResetSearch(false)} />;
+        error && <Modal label="Error!" text={error} onClose={() => handleResetSearch({})} />;
 
     return (
         <>
@@ -181,10 +178,17 @@ const Search = () => {
                         name="searchInput"
                         className="search__container"
                         placeholder="Start typing..."
+                        ariaLabel="Search Images"
                         autoFocus={true}
                         value={searchInput}
                         onInputChange={handleSearchInputChange}
-                        onResetClick={() => handleResetSearch(true)}
+                        onResetClick={() =>
+                            handleResetSearch({
+                                clearInput: true,
+                                clearResults: true,
+                                resetPages: true
+                            })
+                        }
                     />
 
                     <div className="search__actions">

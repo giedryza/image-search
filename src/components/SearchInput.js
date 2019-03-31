@@ -8,6 +8,7 @@ const SearchInput = ({
     name,
     className,
     placeholder,
+    ariaLabel,
     value,
     onInputChange,
     onResetClick
@@ -22,10 +23,11 @@ const SearchInput = ({
     return (
         <div className={className}>
             <input
-                type="text"
+                type="search"
                 id={id}
                 name={name}
                 placeholder={placeholder}
+                aria-label={ariaLabel}
                 autoFocus={autoFocus}
                 value={value}
                 onChange={onInputChange}
