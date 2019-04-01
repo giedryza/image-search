@@ -129,7 +129,7 @@ const Search = () => {
 
     return (
         <>
-            <ErrorMessage error={error} reset={() => handleResetSearch({})} />
+            <ErrorMessage error={error} resetError={() => handleResetSearch({})} />
             <section id="controls">
                 <form onSubmit={handleSearchSubmit} className="search">
                     <SearchInput
@@ -167,7 +167,7 @@ const Search = () => {
                 <ImageGrid
                     images={images}
                     loading={loading}
-                    page={searchSubmit.page}
+                    submitPage={searchSubmit.page}
                     totalPages={totalPages}
                     handleLoadMore={handleLoadMore}
                 />

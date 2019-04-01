@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Title from './Title';
 import Icon from '../utils/Icon';
@@ -25,6 +26,13 @@ const SavedSearches = ({ queries, submitetSearch, handleSearchSaveSubmit, handle
             <ul>{renderSavedSearches()}</ul>
         </aside>
     );
+};
+
+SavedSearches.propTypes = {
+    queries: PropTypes.array.isRequired,
+    submitetSearch: PropTypes.string,
+    handleSearchSaveSubmit: PropTypes.func.isRequired,
+    handleSearchDelete: PropTypes.func.isRequired
 };
 
 export default SavedSearches;

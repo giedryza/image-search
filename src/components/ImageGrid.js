@@ -1,16 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Title from './Title';
 import ButtonPrimary from './ButtonPrimary';
 import ImageItem from './ImageItem';
 import Spinner from '../utils/Spinner';
 
-const ImageGrid = ({ images, loading, page, totalPages, handleLoadMore }) => {
+const ImageGrid = ({ images, loading, submitPage, totalPages, handleLoadMore }) => {
     const renderImages = () => images.map(image => <ImageItem key={image.id} image={image} />);
 
     const renderLoadMoreButton = () => {
-        if (loading && page !== 1) return <Spinner />;
-        if (!(page === totalPages))
+        if (loading && submitPage !== 1) return <Spinner />;
+        if (!(submitPage === totalPages))
             return (
                 <ButtonPrimary
                     type="button"
@@ -28,6 +29,14 @@ const ImageGrid = ({ images, loading, page, totalPages, handleLoadMore }) => {
             {renderLoadMoreButton()}
         </article>
     );
+};
+
+ImageGrid.propTypes = {
+    images: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    submitPage: PropTypes.number.isRequired,
+    totalPages: PropTypes.number.isRequired,
+    handleLoadMore: PropTypes.func.isRequired
 };
 
 export default ImageGrid;
