@@ -2,13 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import SearchContext from '../context/searchContext';
 
-import Spinner from '../utils/Spinner';
-import Modal from '../utils/Modal';
 import ButtonPrimary from './ButtonPrimary';
 import ButtonSearch from './ButtonSearch';
 import SearchInput from './SearchInput';
 import ImageGrid from './ImageGrid';
 import SavedSearches from './SavedSearches';
+import ErrorMessage from './ErrorMessage';
 
 const Search = () => {
     const API = {
@@ -128,12 +127,9 @@ const Search = () => {
         deleteQuery(query);
     };
 
-    const renderError = () =>
-        error && <Modal label="Error!" text={error} onClose={() => handleResetSearch({})} />;
-
     return (
         <>
-            {renderError()}
+            <ErrorMessage error={error} reset={() => handleResetSearch({})} />
             <section id="controls">
                 <form onSubmit={handleSearchSubmit} className="search">
                     <SearchInput
