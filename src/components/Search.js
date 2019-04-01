@@ -2,10 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 
 import SearchContext from '../context/searchContext';
 
-import Icon from '../utils/Icon';
 import Spinner from '../utils/Spinner';
 import Modal from '../utils/Modal';
 import ButtonPrimary from './ButtonPrimary';
+import ButtonSearch from './ButtonSearch';
 import SearchInput from './SearchInput';
 import ImageGrid from './ImageGrid';
 import SavedSearches from './SavedSearches';
@@ -128,13 +128,6 @@ const Search = () => {
         deleteQuery(query);
     };
 
-    const renderSearchButton = () =>
-        loading && searchSubmit.page === 1 ? (
-            <Spinner />
-        ) : (
-            <ButtonPrimary type="submit" icon="search" text="Search" />
-        );
-
     const renderError = () =>
         error && <Modal label="Error!" text={error} onClose={() => handleResetSearch({})} />;
 
@@ -162,7 +155,7 @@ const Search = () => {
                     />
 
                     <div className="search__actions">
-                        {renderSearchButton()}
+                        <ButtonSearch loading={loading} submitPage={searchSubmit.page} />
 
                         <ButtonPrimary
                             type="button"

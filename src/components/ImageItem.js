@@ -20,7 +20,7 @@ ImageItem.propTypes = {
             small: PropTypes.string.isRequired,
             full: PropTypes.string.isRequired
         }),
-        alt_description: PropTypes.string.isRequired
+        alt_description: PropTypes.string
     })
 };
 
