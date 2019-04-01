@@ -8,7 +8,7 @@ import Modal from '../utils/Modal';
 import ButtonPrimary from './ButtonPrimary';
 import Title from './Title';
 import SearchInput from './SearchInput';
-import ImageItem from './ImageItem';
+import ImageGrid from './ImageGrid';
 
 const Search = () => {
     const API = {
@@ -128,27 +128,12 @@ const Search = () => {
         deleteQuery(query);
     };
 
-    const renderImages = () => images.map(image => <ImageItem key={image.id} image={image} />);
-
     const renderSearchButton = () =>
         loading && searchSubmit.page === 1 ? (
             <Spinner />
         ) : (
             <ButtonPrimary type="submit" icon="search" text="Search" />
         );
-
-    const renderLoadMoreButton = () => {
-        if (loading && searchSubmit.page !== 1) return <Spinner />;
-        if (!(searchSubmit.page === totalPages))
-            return (
-                <ButtonPrimary
-                    type="button"
-                    icon="down"
-                    text="Load more"
-                    onClick={handleLoadMore}
-                />
-            );
-    };
 
     const renderSavedSearches = () =>
         queries.map(query => (
@@ -205,11 +190,13 @@ const Search = () => {
             </section>
 
             <section id="content">
-                <article className="images">
-                    <Title text="Images" icon="grid" />
-                    <div className="images__grid">{renderImages()}</div>
-                    {renderLoadMoreButton()}
-                </article>
+                <ImageGrid
+                    images={images}
+                    loading={loading}
+                    page={searchSubmit.page}
+                    totalPages={totalPages}
+                    handleLoadMore={handleLoadMore}
+                />
                 <aside className="queries">
                     <Title text="Saved searches" icon="save" />
                     <ul>{renderSavedSearches()}</ul>
