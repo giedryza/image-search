@@ -6,9 +6,9 @@ import Icon from '../utils/Icon';
 import Spinner from '../utils/Spinner';
 import Modal from '../utils/Modal';
 import ButtonPrimary from './ButtonPrimary';
-import Title from './Title';
 import SearchInput from './SearchInput';
 import ImageGrid from './ImageGrid';
+import SavedSearches from './SavedSearches';
 
 const Search = () => {
     const API = {
@@ -135,21 +135,6 @@ const Search = () => {
             <ButtonPrimary type="submit" icon="search" text="Search" />
         );
 
-    const renderSavedSearches = () =>
-        queries.map(query => (
-            <li key={query}>
-                <button
-                    onClick={() => handleSearchSaveSubmit(query)}
-                    className={query === searchSubmit.query ? 'queries--active' : ''}
-                >
-                    {query}
-                    <span onClick={e => handleSearchDelete(e, query)}>
-                        <Icon name="close" />
-                    </span>
-                </button>
-            </li>
-        ));
-
     const renderError = () =>
         error && <Modal label="Error!" text={error} onClose={() => handleResetSearch({})} />;
 
@@ -197,10 +182,13 @@ const Search = () => {
                     totalPages={totalPages}
                     handleLoadMore={handleLoadMore}
                 />
-                <aside className="queries">
-                    <Title text="Saved searches" icon="save" />
-                    <ul>{renderSavedSearches()}</ul>
-                </aside>
+
+                <SavedSearches
+                    queries={queries}
+                    submitetSearch={searchSubmit.query}
+                    handleSearchSaveSubmit={handleSearchSaveSubmit}
+                    handleSearchDelete={handleSearchDelete}
+                />
             </section>
         </>
     );
