@@ -6,11 +6,11 @@ import Layout from './components/Layout';
 import Search from './components/Search';
 
 const App = () => (
-    <Store>
-        <Layout>
-            <Search />
-        </Layout>
-    </Store>
+  <Store>
+    <Layout>
+      <Search />
+    </Layout>
+  </Store>
 );
 
 export default App;

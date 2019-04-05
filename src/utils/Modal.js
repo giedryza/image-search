@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ButtonPrimary from '../components/ButtonPrimary';
 
-const Modal = ({ label, text, onClose }) => (
+const Modal = ({ label, text, onClose }) => {
+  useEffect(() => {
+    document.querySelector('#modal').focus();
+  }, []);
+
+  return (
     <>
-        <div className="backdrop" onClick={onClose} />
-        <div className="modal">
-            <h3>{label}</h3>
-            <p>{text}</p>
-            <ButtonPrimary type="button" icon="close" text="Close" onClick={onClose} />
-        </div>
+      <div
+        id="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal__title"
+        aria-describedby="modal__desc"
+        tabIndex="-1"
+      >
+        <h3 id="modal__title">{label}</h3>
+        <p id="modal__desc">{text}</p>
+        <ButtonPrimary type="button" icon="close" text="Close" onClick={onClose} />
+      </div>
+      <div className="backdrop" onClick={onClose} aria-hidden="true" />
     </>
-);
+  );
+};
 
 Modal.propTypes = {
-    label: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired
+  label: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Modal;

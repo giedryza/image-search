@@ -10,28 +10,28 @@ import { ReactComponent as Search } from '../assets/svg/search.svg';
 import { ReactComponent as Zoom } from '../assets/svg/zoom.svg';
 
 const Icon = ({ name }) => {
-    switch (name) {
-        case 'check':
-            return <Check />;
-        case 'close':
-            return <Close />;
-        case 'down':
-            return <Down />;
-        case 'grid':
-            return <Grid />;
-        case 'save':
-            return <Save />;
-        case 'search':
-            return <Search />;
-        case 'zoom':
-            return <Zoom />;
-        default:
-            return <Default />;
-    }
+  switch (name) {
+    case 'check':
+      return <Check />;
+    case 'close':
+      return <Close />;
+    case 'down':
+      return <Down />;
+    case 'grid':
+      return <Grid />;
+    case 'save':
+      return <Save />;
+    case 'search':
+      return <Search />;
+    case 'zoom':
+      return <Zoom />;
+    default:
+      return <Default />;
+  }
 };
 
 Icon.propTypes = {
-    name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 
 export default Icon;
